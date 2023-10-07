@@ -1,16 +1,21 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+
 :root {
   --primary-color: #708bd5;
   --bg-color: #eeeff4;
   --text-color: #0f0f10;
   --light-text-color: #7a7777;
-  --body-bg-color:#ffffff ;
+  --body-bg-color: #ffffff;
+  --btn-hover-color: #43568b; /* New color for button hover */
 }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
 body {
   min-height: 100vh;
   display: flex;
@@ -19,17 +24,20 @@ body {
   background-color: var(--body-bg-color);
   color: var(--text-color);
 }
+
 .container {
   width: 400px;
   padding: 20px;
   border-radius: 10px;
   background-color: var(--bg-color);
 }
+
 .container .heading {
   font-size: 25px;
   font-weight: 500;
   margin-bottom: 10px;
 }
+
 .container .options select {
   width: 100%;
   padding: 10px;
@@ -37,6 +45,7 @@ body {
   border-radius: 5px;
   outline: none;
 }
+
 .container .options div:not(:last-child) select {
   margin-bottom: 20px;
 }
@@ -47,6 +56,7 @@ body {
   margin-bottom: 5px;
   color: var(--light-text-color);
 }
+
 .container .line {
   position: relative;
   width: 100%;
@@ -55,6 +65,7 @@ body {
   opacity: 0.5;
   margin: 30px 0;
 }
+
 .btn {
   display: flex;
   align-items: center;
@@ -72,25 +83,32 @@ body {
   cursor: pointer;
   color: #fff;
   background-color: var(--primary-color);
+  transition: background-color 0.3s; /* Added transition for button hover */
 }
+
 .btn ion-icon {
   font-size: 30px;
 }
+
 .btn:disabled {
   background-color: var(--light-text-color);
   cursor: not-allowed;
 }
+
 .container .record img {
   width: 30px;
   height: 30px;
   display: none;
 }
+
 .container .record.recording img {
   display: block;
 }
+
 .container .record.recording ion-icon {
   display: none;
 }
+
 .container .result {
   width: 100%;
   min-height: 200px;
@@ -102,18 +120,22 @@ body {
   margin-bottom: 20px;
   color: var(--text-color);
 }
+
 .container .result p {
   display: inline;
   margin-left: 3px;
   color: var(--light-text-color);
 }
+
 .buttons {
   display: flex;
   gap: 20px;
 }
-.btn:hover{
-    background-color: #43568b;
+
+.btn:hover {
+  background-color: var(--btn-hover-color); /* Updated hover background color */
 }
-.btn.clear:hover{
-    background-color: #43568b;
+
+.btn.clear:hover {
+  background-color: var(--btn-hover-color); /* Updated hover background color for clear button */
 }
