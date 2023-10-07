@@ -1,13 +1,14 @@
 const recordBtn = document.querySelector(".record"),
   result = document.querySelector(".result"),
-  copyBtn = document.querySelector(".copy"), // Add a copy button
+  copyBtn = document.querySelector(".copy"),
   inputLanguage = document.querySelector("#language"),
   clearBtn = document.querySelector(".clear");
 
 let SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition,
   recognition,
-  recording = false;
+  recording = false,
+  timeout;
 
 function populateLanguages() {
   languages.forEach((lang) => {
@@ -28,6 +29,7 @@ function speechToText() {
     recordBtn.classList.add("recording");
     recordBtn.querySelector("p").innerHTML = "Listening...";
     recognition.start();
+    clearTimeout(timeout); // Clear any previous timeout
     recognition.onresult = (event) => {
       const speechResult = event.results[0][0].transcript;
       // detect when interim results
@@ -45,9 +47,10 @@ function speechToText() {
         document.querySelector(".interim").innerHTML = " " + speechResult;
       }
       copyBtn.disabled = false;
+      resetTimeout();
     };
     recognition.onspeechend = () => {
-      speechToText();
+      resetTimeout();
     };
     recognition.onerror = (event) => {
       stopRecording();
@@ -55,7 +58,11 @@ function speechToText() {
         alert("No speech was detected. Stopping...");
       } else if (event.error === "audio-capture") {
         alert("No microphone was found. Ensure that a microphone is installed.");
-      }else {
+      } else if (event.error === "not-allowed") {
+        alert("Permission to use microphone is blocked.");
+      } else if (event.error === "aborted") {
+        alert("Listening Stopped.");
+      } else {
         alert("Error occurred in recognition: " + event.error);
       }
     };
@@ -75,10 +82,19 @@ recordBtn.addEventListener("click", () => {
 });
 
 function stopRecording() {
+  clearTimeout(timeout); // Clear any existing timeout
   recognition.stop();
   recordBtn.querySelector("p").innerHTML = "Start Listening";
   recordBtn.classList.remove("recording");
   recording = false;
+}
+
+function resetTimeout() {
+  clearTimeout(timeout); // Clear existing timeout
+  timeout = setTimeout(() => {
+    // This function will be called after a period of no speech input
+    stopRecording(); // Stop recording after the timeout
+  }, 3000); // Adjust the timeout duration as needed (e.g., 3 seconds)
 }
 
 function copyToClipboard() {
